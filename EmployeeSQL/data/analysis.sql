@@ -26,10 +26,14 @@ JOIN departments AS dpt
 ON (dpt.dept_no = dm.dept_no);
 
 
-
-
-
---List the department of each employee with the following information: employee number, last name, first name, and department name.
+--List the department of each employee with the following information: 
+--employee number, last name, first name, and department name.
+SELECT e.first_name, e.last_name, de.emp_no, dpt.dept_name
+FROM employees AS e
+JOIN dept_emp AS de
+ON (e.emp_no = de.emp_no)
+JOIN departments AS dpt
+ON (de.dept_no = dpt.dept_no);
 
 
 --List first name, last name, and sex for employees whose first name is "Hercules" and last names begin with "B."
