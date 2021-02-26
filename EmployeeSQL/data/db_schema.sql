@@ -1,40 +1,79 @@
-SELECT * FROM departments;
-SELECT * FROM employees;
-SELECT * FROM salaries;
-SELECT * FROM titles;
-SELECT * FROM dept_manager;
-SELECT * FROM dept_emp;
+-- Create Tables:
+CREATE TABLE IF NOT EXISTS dept_emp
+(
+    emp_no INTEGER NOT NULL,
+    dept_no VARCHAR(5) NOT NULL,
+	PRIMARY KEY(emp_no, dept_no)
+);
 
---List the following details of each employee: 
---	employee number, last name, first name, sex, and salary
+CREATE TABLE IF NOT EXISTS departments
+(
+    dept_no VARCHAR(5) NOT NULL,
+    dept_name VARCHAR(100) NOT NULL,
+    PRIMARY KEY(dept_no)
+);
 
-SELECT e.emp_no, e.last_name, e.first_name, e.sex, s.salary
-FROM employees AS e
-JOIN salaries AS s
-ON (e.emp_no = s.emp_no);
+CREATE TABLE IF NOT EXISTS dept_manager
+(
+    dept_no VARCHAR(5) NOT NULL,
+    emp_no INTEGER NOT NULL UNIQUE,
+    PRIMARY KEY(emp_no, dept_no)
+);
+
+CREATE TABLE IF NOT EXISTS employees
+(
+    emp_no INTEGER NOT NULL UNIQUE,
+    emp_title_id VARCHAR(10) NOT NULL,
+    birth_date DATE,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL,
+    sex VARCHAR(1),
+    hire_date DATE,
+    PRIMARY KEY(emp_no)
+);
+
+CREATE TABLE IF NOT EXISTS salaries
+(
+    emp_no INTEGER NOT NULL UNIQUE,
+    salary INTEGER,
+	PRIMARY KEY(emp_no, salary)
+);
+
+CREATE TABLE IF NOT EXISTS titles
+(
+    title_id VARCHAR(10) NOT NULL,
+    title VARCHAR(30) NOT NULL,
+    PRIMARY KEY(title_id)
+);
 
 
---List first name, last name, and hire date for employees who were hired in 1986.
-SELECT first_name, last_name, hire_date
-FROM employees
-WHERE hire_date BETWEEN '1986-01-01' AND '1986-12-31';
+-- Create Foreign Keys:
+ALTER TABLE dept_manager
+    ADD FOREIGN KEY (dept_no)
+    REFERENCES departments(dept_no)
+;
 
+ALTER TABLE dept_emp
+    ADD FOREIGN KEY (dept_no)
+    REFERENCES departments(dept_no)
+;
 
+ALTER TABLE dept_manager
+    ADD FOREIGN KEY (emp_no)
+    REFERENCES employees(emp_no)
+;
 
+ALTER TABLE dept_emp
+    ADD FOREIGN KEY (emp_no)
+    REFERENCES employees(emp_no)
+;
 
---List the manager of each department with the following information: department number, department name, the manager's employee number, last name, first name.
+ALTER TABLE salaries
+    ADD FOREIGN KEY (emp_no)
+    REFERENCES employees(emp_no)
+;
 
-
---List the department of each employee with the following information: employee number, last name, first name, and department name.
-
-
---List first name, last name, and sex for employees whose first name is "Hercules" and last names begin with "B."
-
-
---List all employees in the Sales department, including their employee number, last name, first name, and department name.
-
-
---List all employees in the Sales and Development departments, including their employee number, last name, first name, and department name.
-
-
---In descending order, list the frequency count of employee last names, i.e., how many employees share each last name.
+ALTER TABLE employees
+    ADD FOREIGN KEY (emp_title_id)
+    REFERENCES titles(title_id)
+;
