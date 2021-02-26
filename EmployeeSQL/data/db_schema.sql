@@ -1,4 +1,4 @@
--- Create tables
+-- Create Tables:
 CREATE TABLE IF NOT EXISTS dept_emp
 (
     emp_no INTEGER NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS titles
 );
 
 
--- Create FKs
+-- Create Foreign Keys:
 ALTER TABLE dept_manager
     ADD FOREIGN KEY (dept_no)
     REFERENCES departments(dept_no)
@@ -77,5 +77,3 @@ ALTER TABLE employees
     ADD FOREIGN KEY (emp_title_id)
     REFERENCES titles(title_id)
 ;
-
-SELECT * FROM departments;
