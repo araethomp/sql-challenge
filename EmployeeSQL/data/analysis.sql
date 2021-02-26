@@ -1,12 +1,5 @@
-SELECT * FROM departments;
-SELECT * FROM employees;
-SELECT * FROM salaries;
-SELECT * FROM titles;
-SELECT * FROM dept_manager;
-SELECT * FROM dept_emp;
-
 --List the following details of each employee: 
---	employee number, last name, first name, sex, and salary
+--employee number, last name, first name, sex, and salary
 
 SELECT e.emp_no, e.last_name, e.first_name, e.sex, s.salary
 FROM employees AS e
@@ -15,14 +8,25 @@ ON (e.emp_no = s.emp_no);
 
 
 --List first name, last name, and hire date for employees who were hired in 1986.
+
 SELECT first_name, last_name, hire_date
 FROM employees
 WHERE hire_date BETWEEN '1986-01-01' AND '1986-12-31';
 
 
+--List the manager of each department with the following information: 
+--department number, department name, the manager's employee number, 
+--last name, first name
+
+SELECT e.first_name, e.last_name, dm.dept_no, dm.emp_no, dpt.dept_name
+FROM employees AS e
+JOIN dept_manager AS dm
+ON (e.emp_no = dm.emp_no)
+JOIN departments AS dpt
+ON (dpt.dept_no = dm.dept_no);
 
 
---List the manager of each department with the following information: department number, department name, the manager's employee number, last name, first name.
+
 
 
 --List the department of each employee with the following information: employee number, last name, first name, and department name.
